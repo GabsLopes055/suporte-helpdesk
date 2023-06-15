@@ -23,6 +23,11 @@ public class UserController {
         return ResponseEntity.ok().body(service.listAllUsers());
     }
 
+    @GetMapping(value = "{id}")
+    public ResponseEntity<UserResponse> findUserById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findUserById(id));
+    }
+
 
     //metodo para criar um novo usuário
     @PostMapping
@@ -31,7 +36,19 @@ public class UserController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveNewUser(user));
-//        return ResponseEntity.ok().body(service.saveNewUser(user));
+    }
+
+    //metodo para deletar um usuário
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        service.deleteUser(id);
+        return ResponseEntity.ok("Usuário deletado");
+    }
+
+    //metodo para editar um usuário
+    @PutMapping(value = "{id}")
+    public ResponseEntity<UserResponse> updateUser(UserEntities user, @PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(user, id));
     }
 
 
