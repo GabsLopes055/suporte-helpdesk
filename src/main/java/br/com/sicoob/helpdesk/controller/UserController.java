@@ -47,7 +47,7 @@ public class UserController {
 
     //metodo para editar um usuário
     @PutMapping(value = "{id}")
-    public ResponseEntity<UserResponse> updateUser(UserEntities user, @PathVariable Long id){
+    public ResponseEntity<UserResponse> updateUser(@RequestBody UserResponse user, @PathVariable(value = "id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(user, id));
     }
 

@@ -5,6 +5,7 @@ import br.com.sicoob.helpdesk.entities.UserEntities;
 import br.com.sicoob.helpdesk.repository.UserRepository;
 import br.com.sicoob.helpdesk.service.exceptions.EntityNotFoundException;
 import br.com.sicoob.helpdesk.validators.PassCrypt;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -77,25 +78,23 @@ public class UserService {
     }
 
     //metodo para editar um usuario
-    public UserResponse updateUser(UserEntities user, Long id) {
+    public UserResponse updateUser(UserResponse user, Long id) {
 
-        Optional<UserEntities> updateUser = Optional.ofNullable(repository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("ID: " + id + " não encontrado")));
+        Optional<UserEntities> updateUser = repository.findById(id);
 
-        UserEntities editUser = new UserEntities();
+        if(updateUser.isEmpty()){
+            throw new EntityNotFoundException("ID: " + id + " não encontrado.");
+        }
 
-        editUser.setName(updateUser.get().getName());
-        editUser.setUsername(updateUser.get().getUsername());
-        editUser.setEmail(updateUser.get().getEmail());
+        var editUser = updateUser.get();
 
-        var saveUser = repository.save(editUser);
+        editUser.setName(user.getName());
+        editUser.setUsername(user.getUsername());
+        editUser.setEmail(user.getEmail());
 
-        return new UserResponse(
-                editUser.getCdUser(),
-                editUser.getUsername(),
-                editUser.getName(),
-                editUser.getEmail()
-        );
+        repository.save(editUser);
+
+        return new UserResponse(editUser.getCdUser(), editUser.getName(), editUser.getUsername(), editUser.getEmail());
 
     }
 
