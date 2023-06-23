@@ -1,14 +1,21 @@
 package br.com.sicoob.helpdesk.controller;
 
-import br.com.sicoob.helpdesk.dto.UserResponse;
+import br.com.sicoob.helpdesk.dto.request.UserResquest;
+import br.com.sicoob.helpdesk.dto.response.UserResponse;
 import br.com.sicoob.helpdesk.entities.UserEntities;
 import br.com.sicoob.helpdesk.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.beans.MethodInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/sat/users")
@@ -31,7 +38,8 @@ public class UserController {
 
     //metodo para criar um novo usuário
     @PostMapping
-    public ResponseEntity<UserResponse> saveNewUser(@RequestBody UserEntities user){
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<UserResponse> saveNewUser(@RequestBody @Valid UserResquest user){
         if(user == null){
             return ResponseEntity.noContent().build();
         }
@@ -47,9 +55,22 @@ public class UserController {
 
     //metodo para editar um usuário
     @PutMapping(value = "{id}")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UserResponse user, @PathVariable(value = "id") Long id){
+    public ResponseEntity<UserResponse> updateUser(@RequestBody @Valid UserResponse user, @PathVariable(value = "id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(user, id));
     }
 
+    public Map<String, String> handleValidationException(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((erro) -> {
+            String fieldName = ((FieldError) erro).getField();
+            String errorMessage = erro.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+
+        return errors;
+
+    }
 
 }
