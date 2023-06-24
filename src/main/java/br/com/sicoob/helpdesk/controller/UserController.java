@@ -26,13 +26,23 @@ public class UserController {
 
     //    //metodo para listar todos os usuários
     @GetMapping
+    @CrossOrigin(value = "*")
     public ResponseEntity<List<UserResponse>> listAllUsers(){
         return ResponseEntity.ok().body(service.listAllUsers());
     }
 
-    @GetMapping(value = "{id}")
+    //metodo para listar usuário por id
+    @GetMapping(value = "id/{id}")
+    @CrossOrigin(value = "*")
     public ResponseEntity<UserResponse> findUserById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.findUserById(id));
+    }
+
+    //metodo para listar usuário por username
+    @GetMapping(value = "username/{username}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<UserResponse> findUserByUsername(@PathVariable String username) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findUserByUsername(username));
     }
 
 
@@ -48,6 +58,7 @@ public class UserController {
 
     //metodo para deletar um usuário
     @DeleteMapping(value = "{id}")
+    @CrossOrigin(value = "*")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         service.deleteUser(id);
         return ResponseEntity.ok("Usuário deletado");
@@ -55,6 +66,7 @@ public class UserController {
 
     //metodo para editar um usuário
     @PutMapping(value = "{id}")
+    @CrossOrigin(value = "*")
     public ResponseEntity<UserResponse> updateUser(@RequestBody @Valid UserResponse user, @PathVariable(value = "id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(user, id));
     }

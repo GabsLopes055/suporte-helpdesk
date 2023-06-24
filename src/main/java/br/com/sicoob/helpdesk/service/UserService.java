@@ -42,6 +42,15 @@ public class UserService {
 
         return UserResponse.UserDTO(findUser.get());
 
+    }
+
+    //metodo para buscar usuário por username.
+    public UserResponse findUserByUsername(String username){
+
+        Optional<UserEntities> findUser = Optional.ofNullable(Optional.ofNullable(repository.findByUsername(username)).orElseThrow(()
+                -> new EntityNotFoundException("Usuário não encontrado")));
+
+        return UserResponse.UserDTO(findUser.get());
 
     }
 
