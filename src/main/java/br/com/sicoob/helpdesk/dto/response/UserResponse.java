@@ -2,9 +2,7 @@ package br.com.sicoob.helpdesk.dto.response;
 
 import br.com.sicoob.helpdesk.entities.Enums.UserStatus;
 import br.com.sicoob.helpdesk.entities.UserEntities;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 public class UserResponse {

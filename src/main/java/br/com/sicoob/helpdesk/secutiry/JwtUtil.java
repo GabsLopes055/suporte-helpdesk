@@ -1,11 +1,9 @@
 package br.com.sicoob.helpdesk.secutiry;
 
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.Base64;
+import io.jsonwebtoken.Jwts;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 }

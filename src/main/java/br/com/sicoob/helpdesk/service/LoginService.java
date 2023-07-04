@@ -19,13 +19,25 @@ public class LoginService {
     @Autowired
     private UserRepository repository;
 
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return repository.findByUsername(username);
+//    }
+
+
+//
+//    @Autowired
+//    private UserRepository repository;
+//
+
     @Autowired
     private PassCrypt encoder;
 
     @Autowired
     private JwtUtil jwtUtil;
 
-    public Object generatedJWT(LoginRequest loginRequest) {
+        public Object generatedJWT(LoginRequest loginRequest) {
 
         Optional<UserEntities> user = Optional.ofNullable(Optional.ofNullable(repository.findByUsername(loginRequest.getUsername()))
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado")));
