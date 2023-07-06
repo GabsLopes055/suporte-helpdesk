@@ -7,7 +7,7 @@ import java.io.IOException;
 public class createSMSService {
 
     private static final String BASE_URL = "https://2kwrkp.api.infobip.com";
-    private static final String API_KEY = "App 44b1081f43f48d5fcc8b543b1738353b-ed2e71ed-ce86-438a-9c01-57f5dd71e7d4";
+    private static final String API_KEY = "App 15123e227b0d78fac43bdab4fe7c2334-48b4f727-a364-4e0a-aa72-bfc829cf17f2";
     private static final String MEDIA_TYPE = "application/json";
 
     private static final String SENDER = "InfoSMS";

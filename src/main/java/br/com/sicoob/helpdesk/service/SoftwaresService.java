@@ -4,10 +4,12 @@ import br.com.sicoob.helpdesk.dto.request.SoftwareRequest;
 import br.com.sicoob.helpdesk.dto.response.SoftwareResponse;
 import br.com.sicoob.helpdesk.entities.SoftwareEntities;
 import br.com.sicoob.helpdesk.repository.SoftwareRepository;
+import br.com.sicoob.helpdesk.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SoftwaresService {
@@ -32,6 +34,23 @@ public class SoftwaresService {
         List<SoftwareResponse> softwareResponses  = softwareEntities.stream().map(e -> SoftwareResponse.softwareResponseDTO(e)).toList();
 
         return softwareResponses;
+
+    }
+
+    //metodo para editar um software
+    public SoftwareResponse editSoftware(SoftwareRequest software, Long id) {
+
+        Optional<SoftwareEntities> OPTsoftware = Optional.ofNullable(repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("ID: " + id + " não encontrado")));
+
+        SoftwareEntities softEdit = OPTsoftware.get();
+
+        softEdit.setLink(software.getLink());
+        softEdit.setTitle(software.getTitle());
+
+        repository.save(softEdit);
+
+        return SoftwareResponse.softwareResponseDTO(softEdit);
 
     }
 

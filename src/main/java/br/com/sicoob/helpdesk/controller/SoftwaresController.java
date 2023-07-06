@@ -20,6 +20,7 @@ public class SoftwaresController {
 
 
     //metodo para salvar um novo softwares
+    @CrossOrigin(value = "*")
     @PostMapping
     public ResponseEntity<SoftwareResponse> createNewSoftware(@RequestBody @Valid SoftwareRequest request) {
 
@@ -32,10 +33,23 @@ public class SoftwaresController {
     }
 
     //metodo para listar todos os softwares
+    @CrossOrigin(value = "*")
     @GetMapping
     public ResponseEntity<List<SoftwareResponse>> listAllSoftwares(){
 
         return ResponseEntity.status(HttpStatus.OK).body(service.listAllSoftwares());
+
+    }
+
+    //metodo para editar um software
+    @CrossOrigin(value = "*")
+    @PutMapping(value = "{id}")
+    public ResponseEntity<SoftwareResponse> editSoftware(@Valid @RequestBody SoftwareRequest software, @PathVariable(value = "id") Long id) {
+        if (software == null || id == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.editSoftware(software, id));
 
     }
 

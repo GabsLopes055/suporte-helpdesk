@@ -19,7 +19,7 @@ public class SoftwareEntities {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "link")
+    @Column(name = "link", length = 1024)
     private String link;
 
 }
