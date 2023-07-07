@@ -3,6 +3,7 @@ package br.com.sicoob.helpdesk.service;
 import br.com.sicoob.helpdesk.dto.request.SoftwareRequest;
 import br.com.sicoob.helpdesk.dto.response.SoftwareResponse;
 import br.com.sicoob.helpdesk.entities.SoftwareEntities;
+import br.com.sicoob.helpdesk.entities.UserEntities;
 import br.com.sicoob.helpdesk.repository.SoftwareRepository;
 import br.com.sicoob.helpdesk.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,17 @@ public class SoftwaresService {
         repository.save(softEdit);
 
         return SoftwareResponse.softwareResponseDTO(softEdit);
+
+    }
+
+    //metodo para excluir um software
+    public void deleteSoftware(Long id) {
+        Optional<SoftwareEntities> deleteSoftware = Optional.ofNullable(repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("ID: " + id + " não encontrado")));
+
+        if(deleteSoftware.isPresent()){
+            repository.deleteById(id);
+        }
 
     }
 

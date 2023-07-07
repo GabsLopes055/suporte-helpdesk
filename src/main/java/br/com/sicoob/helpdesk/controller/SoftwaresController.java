@@ -53,5 +53,13 @@ public class SoftwaresController {
 
     }
 
+    //metodo para excluir um software
+    @CrossOrigin(value = "*")
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<String> deleteSoftware(@PathVariable Long id) {
+        service.deleteSoftware(id);
+        return ResponseEntity.ok("Software deletado !");
+    }
+
 
 }
