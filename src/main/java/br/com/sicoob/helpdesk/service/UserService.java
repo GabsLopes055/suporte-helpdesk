@@ -1,6 +1,8 @@
 package br.com.sicoob.helpdesk.service;
 
+import br.com.sicoob.helpdesk.dto.request.PasswordRequest;
 import br.com.sicoob.helpdesk.dto.request.UserResquest;
+import br.com.sicoob.helpdesk.dto.response.PasswordResponse;
 import br.com.sicoob.helpdesk.dto.response.UserResponse;
 import br.com.sicoob.helpdesk.entities.UserEntities;
 import br.com.sicoob.helpdesk.repository.UserRepository;
@@ -102,13 +104,33 @@ public class UserService {
 
     }
 
-//    //metodo para atualizar parcialmente um usuário - editar o status - editar a senha
-//    public UserResponse updateStatusUser(UserResquest user, Long id) {
-//        Optional<UserEntities> findUser = Optional.ofNullable(repository.findById(id).orElseThrow(()
-//        -> new EntityNotFoundException("Usuário não encontrado")));
-//
-//
-//    }
+
+
+    //metodo para atualizar editar a senha
+    public String updatePasswordUser(PasswordRequest passwordRequest, Long id) {
+        Optional<UserEntities> findUser = Optional.ofNullable(repository.findById(id).orElseThrow(()
+        -> new EntityNotFoundException("Usuário não encontrado")));
+
+        var UserNewPassword = findUser.get();
+
+        if(encoder.matches(passwordRequest.getOldPassword(), UserNewPassword.getPassword())) {
+            if(passwordRequest.getNewPassword().equals(passwordRequest.getNewConfirmPassword())){
+
+
+
+
+                UserNewPassword.setPassword(encoder.encode(passwordRequest.getNewPassword()));
+                repository.save(UserNewPassword);
+                return "Senha Atualizada";
+            } else {
+                return "senhas nao conferem";
+            }
+        } else {
+            return "senha incorreta";
+        }
+
+
+    }
 
 
 }
