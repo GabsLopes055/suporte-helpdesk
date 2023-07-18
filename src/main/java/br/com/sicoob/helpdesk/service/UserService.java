@@ -107,18 +107,14 @@ public class UserService {
 
 
     //metodo para atualizar editar a senha
-    public String updatePasswordUser(PasswordRequest passwordRequest, Long id) {
-        Optional<UserEntities> findUser = Optional.ofNullable(repository.findById(id).orElseThrow(()
-        -> new EntityNotFoundException("Usuário não encontrado")));
+    public String updatePasswordUser(PasswordRequest passwordRequest, String username) {
+        Optional<UserEntities> findUser = Optional.ofNullable(Optional.ofNullable(repository.findByUsername(username)).orElseThrow(()
+                -> new EntityNotFoundException("Usuário não encontrado")));
 
         var UserNewPassword = findUser.get();
 
         if(encoder.matches(passwordRequest.getOldPassword(), UserNewPassword.getPassword())) {
             if(passwordRequest.getNewPassword().equals(passwordRequest.getNewConfirmPassword())){
-
-
-
-
                 UserNewPassword.setPassword(encoder.encode(passwordRequest.getNewPassword()));
                 repository.save(UserNewPassword);
                 return "Senha Atualizada";
