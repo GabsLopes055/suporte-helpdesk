@@ -68,13 +68,24 @@ public class UserController {
     @PutMapping(value = "password/{username}")
     @CrossOrigin(value = "*")
     public ResponseEntity<?> editPassword(@RequestBody @Valid PasswordRequest passwordRequest, @PathVariable(value = "username") String username) {
-        if(Objects.equals(service.updatePasswordUser(passwordRequest, username), "senha incorreta")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha incorreta !");
-        } else if(Objects.equals(service.updatePasswordUser(passwordRequest, username), "senhas nao conferem")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Senhas não conferem !");
+
+        var response = service.updatePasswordUser(passwordRequest, username);
+
+        if(response.equals("senha incorreta")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Senha incorreta !");
+        } else if(response.equals("senhas nao conferem")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senhas não conferem !");
         } else {
             return ResponseEntity.status(HttpStatus.OK).body("Senha Atualizada");
         }
+
+//        if(Objects.equals(service.updatePasswordUser(passwordRequest, username), "senha incorreta")) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Senha incorreta !");
+//        } else if(Objects.equals(service.updatePasswordUser(passwordRequest, username), "senhas nao conferem")) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Senhas não conferem !");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.OK).body("Senha Atualizada");
+//        }
     }
 
     //metodo para editar um usuário
