@@ -15,4 +15,7 @@ public class ManualDocRequest {
 
     @NotBlank(message = "O campo data não pode ser vazio")
     private byte[] data;
+
+    @NotBlank(message = "A categoria não pode ser vazia")
+    private CategoryOfManualRequest category;
 }

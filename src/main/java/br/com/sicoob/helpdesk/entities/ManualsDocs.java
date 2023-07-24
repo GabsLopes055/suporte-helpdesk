@@ -1,5 +1,6 @@
 package br.com.sicoob.helpdesk.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,9 @@ public class ManualsDocs {
 
     @Lob
     private byte[] data;
+
+    @ManyToOne
+    @JoinColumn(name = "cdCategory")
+    private CategoryOfManuals category;
 
 }

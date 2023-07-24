@@ -5,6 +5,7 @@ import br.com.sicoob.helpdesk.service.ManualsDocsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ public class ManualsDocController {
 
     @PostMapping
     @CrossOrigin(value = "*")
-    public ResponseEntity<ManualDocResponse> uploadMultipleFiles(@RequestBody @Valid MultipartFile file) throws IOException {
+    public ResponseEntity<ManualDocResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile file, @RequestParam("category") String category) throws IOException {
 
         if(file == null) {
             return ResponseEntity.noContent().build();
