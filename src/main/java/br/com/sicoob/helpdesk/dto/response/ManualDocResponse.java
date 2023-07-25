@@ -1,13 +1,19 @@
 package br.com.sicoob.helpdesk.dto.response;
 
+import br.com.sicoob.helpdesk.entities.CategoryOfManuals;
 import br.com.sicoob.helpdesk.entities.ManualsDocs;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ManualDocResponse {
 
 
@@ -19,6 +25,9 @@ public class ManualDocResponse {
 
     private byte[] data;
 
+    private CategoryOfManuals category;
+
+    @Transactional
     public static ManualDocResponse ManualDocResponse(ManualsDocs doc) {
 
         var response = new ManualDocResponse();
@@ -27,6 +36,8 @@ public class ManualDocResponse {
         response.setDocName(doc.getDocName());
         response.setDocType(doc.getDocType());
         response.setData(doc.getData());
+        response.setCategory(doc.getCategory());
+
 
         return response;
 

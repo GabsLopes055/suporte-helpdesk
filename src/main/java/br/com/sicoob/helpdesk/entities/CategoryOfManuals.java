@@ -1,5 +1,6 @@
 package br.com.sicoob.helpdesk.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,9 @@ public class CategoryOfManuals {
 
     private String category;
 
-//    @JsonManagedReference
-////    @JoinColumn(name = "id")
-//    @OneToMany(mappedBy = "category")
-//    private List<ManualsDocs> manuals = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    private List<ManualsDocs> manuais = new ArrayList<>();
 
 }

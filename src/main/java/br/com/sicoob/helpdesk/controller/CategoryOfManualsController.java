@@ -1,5 +1,7 @@
 package br.com.sicoob.helpdesk.controller;
 
+import br.com.sicoob.helpdesk.dto.request.CategoryOfManualRequest;
+import br.com.sicoob.helpdesk.dto.response.CategoryOfManualResponse;
 import br.com.sicoob.helpdesk.entities.CategoryOfManuals;
 import br.com.sicoob.helpdesk.service.CategoryOfManualsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +22,18 @@ public class CategoryOfManualsController {
     /metodo para listar todas as categorias
      */
     @GetMapping
-    public ResponseEntity<List<CategoryOfManuals>> findAllCategory() {
-        List<CategoryOfManuals> listCategory = service.listAllCategory();
-        return ResponseEntity.status(HttpStatus.OK).body(listCategory);
+    @CrossOrigin(value = "*")
+    public ResponseEntity<List<CategoryOfManualResponse>> findAllCategory() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listAllCategory());
     }
 
     /*
     metodo  para criar uma categoria
      */
     @PostMapping
-    public CategoryOfManuals createNewCategory(@RequestBody CategoryOfManuals category) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createNewCategory(category)).getBody();
+    @CrossOrigin(value = "*")
+    public ResponseEntity<CategoryOfManualResponse> createNewCategory(@RequestBody CategoryOfManualRequest category) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createNewCategory(category));
     }
 
 
