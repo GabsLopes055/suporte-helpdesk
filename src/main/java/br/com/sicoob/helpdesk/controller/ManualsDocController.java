@@ -46,4 +46,16 @@ public class ManualsDocController {
 
     }
 
+    /*
+    metodo para excluir um manual
+     */
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<?> deleteManual(@PathVariable(value = "id") Integer cdManual) {
+        if(service.deleteManual(cdManual)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Manual Deletado !");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao excluir manual !");
+        }
+    }
+
 }

@@ -4,7 +4,9 @@ import br.com.sicoob.helpdesk.dto.request.CategoryOfManualRequest;
 import br.com.sicoob.helpdesk.dto.response.ManualDocResponse;
 import br.com.sicoob.helpdesk.entities.CategoryOfManuals;
 import br.com.sicoob.helpdesk.entities.ManualsDocs;
+import br.com.sicoob.helpdesk.entities.SoftwareEntities;
 import br.com.sicoob.helpdesk.repository.ManualsDocsRepository;
+import br.com.sicoob.helpdesk.service.exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +45,21 @@ public class ManualsDocsService {
         List<ManualsDocs> listManuals = repository.listAllManuals();
 
         return listManuals.stream().map(ManualDocResponse::ManualDocResponse).collect(Collectors.toList());
+
+    }
+
+    //metodo para excluir um manual
+    public boolean deleteManual(Integer cdManual) {
+
+        Optional<ManualsDocs> deleteSoftware = Optional.ofNullable(repository.findById(cdManual).orElseThrow(() ->
+                new EntityNotFoundException("Manual não encontrado")));
+
+        if (deleteSoftware.isPresent()) {
+            repository.deleteById(cdManual);
+            return true;
+        }
+
+        return false;
 
     }
 
