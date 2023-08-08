@@ -3,10 +3,14 @@ package br.com.sicoob.helpdesk.controller;
 import br.com.sicoob.helpdesk.dto.request.CategoryOfManualRequest;
 import br.com.sicoob.helpdesk.dto.response.ManualDocResponse;
 import br.com.sicoob.helpdesk.entities.CategoryOfManuals;
+import br.com.sicoob.helpdesk.entities.ManualsDocs;
 import br.com.sicoob.helpdesk.service.ManualsDocsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +30,8 @@ public class ManualsDocController {
      */
     @PostMapping
     @CrossOrigin(value = "*")
-    public ResponseEntity<ManualDocResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile file, @RequestParam("cdCategory") @Valid CategoryOfManuals cdCategory) throws IOException {
+    public ResponseEntity<ManualDocResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile file,
+                                                                 @RequestParam("cdCategory") @Valid CategoryOfManuals cdCategory) throws IOException {
 
         if(file == null) {
             return ResponseEntity.noContent().build();
@@ -56,6 +61,20 @@ public class ManualsDocController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao excluir manual !");
         }
+    }
+
+    /*
+     * metodo para baixar um manual
+     * */
+    @GetMapping("/downloadManual/{fileId}")
+    public ResponseEntity<ByteArrayResource> downloadManual(@PathVariable(value = "fileId") Integer fileId) {
+
+        ManualDocResponse manual = service.findManual(fileId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(manual.getDocType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment:filename=\""+manual.getDocName()+ "\"")
+                .body(new ByteArrayResource(manual.getData()));
     }
 
 }

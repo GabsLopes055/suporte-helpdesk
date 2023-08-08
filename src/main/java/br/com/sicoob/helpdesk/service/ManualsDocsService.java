@@ -63,4 +63,28 @@ public class ManualsDocsService {
 
     }
 
+    /*
+    * metodo para buscar um manual*/
+    public ManualDocResponse findManual(Integer fileId) {
+
+        Optional<ManualsDocs> doc = Optional.ofNullable(repository.findById(fileId).orElseThrow(
+                () -> new EntityNotFoundException("Manual Não encontrado !")
+        ));
+
+        ManualDocResponse manual = new ManualDocResponse();
+
+        manual.setId(doc.get().getId());
+        manual.setCategory(doc.get().getCategory());
+        manual.setDocType(doc.get().getDocType());
+        manual.setDocName(doc.get().getDocName());
+        manual.setData(doc.get().getData());
+
+        return manual;
+
+
+    }
+
+
+
+
 }
