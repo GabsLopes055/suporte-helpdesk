@@ -36,5 +36,17 @@ public class CategoryOfManualsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createNewCategory(category));
     }
 
+    /*
+    * metodo para excluir uma categoria*/
+    @DeleteMapping(value = "/{cdCategory}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<?> deleteCategory(@PathVariable(value = "cdCategory") Long cdCategory) {
+        if(service.deleteCategory(cdCategory)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Categoria Deletada");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possivel excluir categoria !");
+        }
+    }
+
 
 }

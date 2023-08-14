@@ -6,12 +6,14 @@ import br.com.sicoob.helpdesk.dto.response.ManualDocResponse;
 import br.com.sicoob.helpdesk.dto.response.SendSMSResponse;
 import br.com.sicoob.helpdesk.entities.CategoryOfManuals;
 import br.com.sicoob.helpdesk.repository.CategoryOfManualsRepository;
+import br.com.sicoob.helpdesk.service.exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,8 +62,16 @@ public class CategoryOfManualsService {
     /*
     * metodo para excluir uma categoria
     * */
-    public String deleteCategory() {
-        return "";
+    public boolean deleteCategory(Long cdCategory) {
+
+        Optional<CategoryOfManuals> findCategory = Optional.ofNullable(repository.findById(cdCategory).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada !")));
+
+        if(findCategory.isEmpty()) {
+            return false;
+        } else {
+            repository.deleteById(cdCategory);
+            return true;
+        }
     }
 
 }

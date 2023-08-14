@@ -55,6 +55,7 @@ public class ManualsDocController {
     metodo para excluir um manual
      */
     @DeleteMapping(value = "{id}")
+    @CrossOrigin(value = "*")
     public ResponseEntity<?> deleteManual(@PathVariable(value = "id") Integer cdManual) {
         if(service.deleteManual(cdManual)) {
             return ResponseEntity.status(HttpStatus.OK).body("Manual Deletado !");
@@ -67,6 +68,7 @@ public class ManualsDocController {
      * metodo para baixar um manual
      * */
     @GetMapping("/downloadManual/{fileId}")
+    @CrossOrigin(value = "*")
     public ResponseEntity<ByteArrayResource> downloadManual(@PathVariable(value = "fileId") Integer fileId) {
 
         ManualDocResponse manual = service.findManual(fileId);
