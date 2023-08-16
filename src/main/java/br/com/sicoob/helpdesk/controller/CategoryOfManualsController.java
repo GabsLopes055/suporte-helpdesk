@@ -48,5 +48,16 @@ public class CategoryOfManualsController {
         }
     }
 
+    /*metodo para editar uma categoria*/
+    @PutMapping(value = "/{cdCategory}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<CategoryOfManualResponse> editCategory(@RequestBody CategoryOfManualRequest category, @PathVariable(value = "cdCategory") Long cdCategory) {
+
+        if(category == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.editCategory(category, cdCategory));
+    }
 
 }

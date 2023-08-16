@@ -23,9 +23,8 @@ public class CategoryOfManuals {
 
     private String category;
 
-
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<ManualsDocs> manuais = new ArrayList<>();
 
 }
