@@ -80,7 +80,26 @@ public class ManualsDocsService {
         manual.setData(doc.get().getData());
 
         return manual;
+    }
 
+    /*metodo para editar um manual*/
+    public ManualDocResponse editManual(@NotNull MultipartFile file, Integer fileId, CategoryOfManuals cdCategory) throws IOException {
+
+        Optional<ManualsDocs> docOPT = Optional.ofNullable(repository.findById(fileId).orElseThrow(
+                () -> new EntityNotFoundException("Manual Não encontrado !")
+        ));
+
+        var doc = docOPT.get();
+
+        ManualDocResponse manual = new ManualDocResponse();
+
+        doc.setId(doc.getId());
+        doc.setCategory(cdCategory);
+        doc.setDocType(file.getContentType());
+        doc.setDocName(file.getOriginalFilename());
+        doc.setData(file.getBytes());
+
+        return ManualDocResponse.ManualDocResponse(repository.save(doc));
 
     }
 

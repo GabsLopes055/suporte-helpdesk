@@ -79,4 +79,20 @@ public class ManualsDocController {
                 .body(new ByteArrayResource(manual.getData()));
     }
 
+    /*metodo para editar manual*/
+    @PutMapping("edit/{fileId}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<ManualDocResponse> editManual(@PathVariable(value = "fileId") Integer fileId,
+                                                        @RequestParam("file") MultipartFile file,
+                                                        @RequestParam("cdCategory") @Valid CategoryOfManuals cdCategory) throws IOException {
+
+        if(file == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.editManual(file, fileId, cdCategory));
+
+
+    }
+
 }
