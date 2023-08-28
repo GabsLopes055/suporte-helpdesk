@@ -1,6 +1,7 @@
 package br.com.sicoob.helpdesk.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,14 +32,14 @@ public class Information {
 
     /*para guardar alguma imagem do informativo (jpeg, png, .pdf*/
 
-    @Column(name = "docName")
+    @Column(name = "docName", nullable = true)
     private String docName;
 
-    @Column(name = "docType")
+    @Column(name = "docType", nullable = true)
     private String docType;
 
     @Lob
-    @Column(name = "docContent")
+    @Column(name = "docContent", nullable = true)
     private byte[] data;
 
 
