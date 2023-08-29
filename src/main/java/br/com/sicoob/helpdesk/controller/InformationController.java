@@ -42,4 +42,10 @@ public class InformationController {
         return ResponseEntity.status(HttpStatus.OK).body(service.listAllInformations());
     }
 
+    @GetMapping(value = "{id}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<InformationResponse> findInformation(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findInformation(id));
+    }
+
 }

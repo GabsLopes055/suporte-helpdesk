@@ -27,7 +27,7 @@ public class Information {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "content")
+    @Lob
     private String content;
 
     /*para guardar alguma imagem do informativo (jpeg, png, .pdf*/
