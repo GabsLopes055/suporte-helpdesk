@@ -48,4 +48,15 @@ public class InformationController {
         return ResponseEntity.status(HttpStatus.OK).body(service.findInformation(id));
     }
 
+    @DeleteMapping(value = "{id}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<Boolean> deleteInformation(@PathVariable(value = "id") Long id) {
+
+        if(!service.deleteInformation(id)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }
+    }
+
 }

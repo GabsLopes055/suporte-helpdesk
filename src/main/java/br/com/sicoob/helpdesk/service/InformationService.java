@@ -73,5 +73,19 @@ public class InformationService {
         return InformationResponse.InformationResponse(response);
     }
 
+    public boolean deleteInformation(Long id) {
+
+        if(id == null) {
+            return false;
+        }
+
+        Optional<Information> findInformation = Optional.ofNullable(repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Informativo não encontrado")));
+
+        repository.deleteById(id);
+        return true;
+
+    }
+
 
 }
