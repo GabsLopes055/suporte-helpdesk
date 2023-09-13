@@ -7,6 +7,7 @@ import br.com.sicoob.helpdesk.service.InformationService;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,16 @@ public class InformationController {
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(true);
         }
+    }
+
+    @PutMapping(value = "{id}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<InformationResponse> editInformation(@RequestParam(value = "file", required = false) MultipartFile file,
+                                                               @RequestParam("title") @Valid String title,
+                                                               @RequestParam("description") @Valid String description,
+                                                               @RequestParam("content") @Valid String content,
+                                                               @PathVariable(value = "id") Long id) throws IOException {
+        return ResponseEntity.status(HttpStatus.OK).body(service.editInformation(id, file, title, description, content));
     }
 
 }

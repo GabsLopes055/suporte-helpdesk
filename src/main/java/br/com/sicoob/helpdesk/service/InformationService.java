@@ -73,6 +73,7 @@ public class InformationService {
         return InformationResponse.InformationResponse(response);
     }
 
+    //metodo para excluir um informativo
     public boolean deleteInformation(Long id) {
 
         if(id == null) {
@@ -84,6 +85,30 @@ public class InformationService {
 
         repository.deleteById(id);
         return true;
+
+    }
+
+
+    //metodo para editar um informativo
+    public InformationResponse editInformation(Long id,
+                                               MultipartFile file,
+                                               String title,
+                                               String description,
+                                               String content) throws IOException {
+
+        Optional<Information> findInformation = Optional.ofNullable(repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Informativo não encontrado")));
+
+        var information = findInformation.get();
+
+        information.setTitle(title);
+        information.setDescription(description);
+        information.setContent(content);
+        information.setDocType(file.getContentType());
+        information.setDocName(file.getOriginalFilename());
+        information.setData(file.getBytes());
+
+        return InformationResponse.InformationResponse(repository.save(information));
 
     }
 
