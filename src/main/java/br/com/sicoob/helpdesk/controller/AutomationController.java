@@ -1,10 +1,14 @@
 package br.com.sicoob.helpdesk.controller;
 
 import br.com.sicoob.helpdesk.dto.response.AutomationsResponse;
+import br.com.sicoob.helpdesk.dto.response.ManualDocResponse;
 import br.com.sicoob.helpdesk.service.AutomationService;
 import jakarta.persistence.Lob;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +39,21 @@ public class AutomationController {
     @CrossOrigin(value = "*")
     public ResponseEntity<AutomationsResponse> findOneAutomation(@PathVariable(value = "id")Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.findOneAutomation(id));
+    }
+
+    /*
+     * metodo para baixar uma bat
+     * */
+    @GetMapping("/downloadAutomation/{fileId}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<ByteArrayResource> downloadAutomation(@PathVariable(value = "fileId") Long fileId) {
+
+        AutomationsResponse automation = service.findOneAutomation(fileId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(automation.getDocType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment:filename=\""+automation.getDocName()+ "\"")
+                .body(new ByteArrayResource(automation.getData()));
     }
 
 }
