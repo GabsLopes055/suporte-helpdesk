@@ -56,4 +56,15 @@ public class AutomationController {
                 .body(new ByteArrayResource(automation.getData()));
     }
 
+    /*metodo para excluir uma bat*/
+    @DeleteMapping(value = "{id}")
+    @CrossOrigin(value = "*")
+    public ResponseEntity<?> deleteAutomationById(@PathVariable Long id) {
+        if(service.deleteAutomation(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Arquivo Excluido");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao excluir arquivo");
+        }
+    }
+
 }

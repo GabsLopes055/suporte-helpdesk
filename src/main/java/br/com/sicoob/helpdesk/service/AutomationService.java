@@ -60,4 +60,20 @@ public class AutomationService {
 
     }
 
+    /*metodo para excluir */
+    public boolean deleteAutomation(Long id) {
+
+        if(id == null) {
+            return false;
+        }
+
+        Optional<Automations> findAutomation = Optional.ofNullable(repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("id não encontrado")
+        ));
+
+        repository.deleteById(id);
+        return true;
+
+    }
+
 }
