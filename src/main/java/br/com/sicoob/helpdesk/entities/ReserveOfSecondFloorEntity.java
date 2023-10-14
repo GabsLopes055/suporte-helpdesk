@@ -15,25 +15,30 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EquipmentOfSecondFloorEntity {
+public class ReserveOfSecondFloorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cdEquipment;
+    private Long cdReserve;
 
-    @NotBlank
     private String nameUser;
 
-    @NotBlank
     private String nameEquipment;
 
-    @NotBlank
     private LocalDateTime dateOfRemove;
 
-    @Nullable
     private LocalDateTime dateOfAdd;
 
-    @NotBlank
     private StatusOfBanq status;
+
+    @PrePersist
+    public void prePersist() {
+        this.setDateOfRemove(LocalDateTime.now());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.setDateOfAdd(LocalDateTime.now());
+    }
 
 }

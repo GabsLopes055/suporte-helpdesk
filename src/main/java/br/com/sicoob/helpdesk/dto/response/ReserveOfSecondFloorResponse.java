@@ -1,9 +1,7 @@
 package br.com.sicoob.helpdesk.dto.response;
 
 import br.com.sicoob.helpdesk.entities.Enums.StatusOfBanq;
-import br.com.sicoob.helpdesk.entities.EquipmentOfSecondFloorEntity;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
+import br.com.sicoob.helpdesk.entities.ReserveOfSecondFloorEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +9,9 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class EquipmentOfSecondFloorResponse {
+public class ReserveOfSecondFloorResponse {
 
-    private Long cdEquipament;
+    private Long cdReserve;
 
     private String nameUser;
 
@@ -28,11 +26,11 @@ public class EquipmentOfSecondFloorResponse {
 
 
 
-    public static EquipmentOfSecondFloorResponse responseEquipment(EquipmentOfSecondFloorEntity equipment) {
+    public static ReserveOfSecondFloorResponse responseEquipment(ReserveOfSecondFloorEntity equipment) {
 
-        var response = new EquipmentOfSecondFloorResponse();
+        var response = new ReserveOfSecondFloorResponse();
 
-        response.setCdEquipament(equipment.getCdEquipment());
+        response.setCdReserve(equipment.getCdReserve());
         response.setNameUser(equipment.getNameUser());
         response.setNameEquipment(equipment.getNameEquipment());
         response.setDateOfRemove(equipment.getDateOfRemove());
