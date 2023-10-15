@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class EquipmentService {
         EquipmentEntity entity = new EquipmentEntity();
 
         entity.setNameEquipment(request.getNameEquipment());
-        entity.setStatus(request.getStatus());
+        entity.setStatus(request.isStatus());
 
         return EquipmentResponse.responseEquipment(repository.save(entity));
 
@@ -38,7 +39,7 @@ public class EquipmentService {
      **/
     public List<EquipmentResponse> listAllEquipments() {
 
-        List<EquipmentEntity> response = repository.findAll();
+        List<EquipmentEntity> response = repository.findByStatus();
 
         return response.stream().map(e -> EquipmentResponse.responseEquipment(e)).collect(Collectors.toList());
 
@@ -47,24 +48,24 @@ public class EquipmentService {
     /*
     * Metodo para reservar um equipamento, o status mudará para FALSO
     * */
-//    public void reserveEquipment(Long cdEquipment) {
-//
-//        Optional<EquipmentEntity> equipment = Optional.ofNullable(repository.findById(cdEquipment).orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrado")));
-//
-//        equipment.get().setStatus(false);
-//
-//        repository.save(equipment.get());
-//
-//    }
-//    /*
-//     * Metodo para devolver um equipamento, o status mudará para VERDADEIRO
-//     * */
-//    public void returnEquipment(String nameEquipment) {
-//
-//        EquipmentEntity equipment = repository.findByNameEquipment(nameEquipment);
-//
-//        equipment.setStatus(true);
-//
-//        repository.save(equipment);
-//    }
+    public void reserveEquipment(String nameEquipment) {
+
+        Optional<EquipmentEntity> equipment = Optional.ofNullable(repository.findBynameEquipment(nameEquipment));
+
+        equipment.get().setStatus(false);
+
+        repository.save(equipment.get());
+
+    }
+    /*
+     * Metodo para devolver um equipamento, o status mudará para VERDADEIRO
+     * */
+    public void returnEquipment(String nameEquipment) {
+
+        Optional<EquipmentEntity> equipment = Optional.ofNullable(repository.findBynameEquipment(nameEquipment));
+
+        equipment.get().setStatus(true);
+
+        repository.save(equipment.get());
+    }
 }

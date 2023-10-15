@@ -10,10 +10,10 @@ public class EquipmentsRequest {
     @Positive
     private Long cdEquipment;
 
-    @NotBlank(message = "O campo não pode ser vazio")
+    @NotBlank(message = "O campo 'nameEquipment' não pode ser vazio")
     private String nameEquipment;
 
-//    @NotBlank
-    private Boolean status;
+    @NotBlank(message = "O campo 'status' não pode ser vazio")
+    private boolean status;
 
 }

@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class EquipmentResponse extends RuntimeException {
+public class EquipmentResponse {
 
     private Long cdEquipment;
 
     private String nameEquipment;
 
-    private Boolean status;
+    private boolean status;
 
     public static EquipmentResponse responseEquipment(EquipmentEntity entity) {
 
@@ -19,7 +19,7 @@ public class EquipmentResponse extends RuntimeException {
 
         response.setCdEquipment(entity.getCdEquipment());
         response.setNameEquipment(entity.getNameEquipment());
-        response.setStatus(entity.getStatus());
+        response.setStatus(entity.isStatus());
 
         return response;
 

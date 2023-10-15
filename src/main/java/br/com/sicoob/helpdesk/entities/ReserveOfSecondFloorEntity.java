@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tbl_EquipmentOfSecondFloor")
+@Table(name = "tbl_reserve_of_second_floor")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

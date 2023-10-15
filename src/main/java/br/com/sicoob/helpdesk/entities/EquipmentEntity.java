@@ -19,6 +19,6 @@ public class EquipmentEntity {
     private String nameEquipment;
 
 //    @NotBlank
-    private Boolean status;
+    private boolean status;
 
 }

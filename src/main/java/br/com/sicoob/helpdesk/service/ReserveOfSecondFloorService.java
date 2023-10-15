@@ -1,11 +1,13 @@
 package br.com.sicoob.helpdesk.service;
 
+import br.com.sicoob.helpdesk.controller.exceptions.InternalServerError;
 import br.com.sicoob.helpdesk.dto.request.ReserveOfSecondFloorRequest;
 import br.com.sicoob.helpdesk.dto.response.ReserveOfSecondFloorResponse;
 import br.com.sicoob.helpdesk.entities.Enums.StatusOfBanq;
 import br.com.sicoob.helpdesk.entities.ReserveOfSecondFloorEntity;
 import br.com.sicoob.helpdesk.repository.ReserveOfSecondFloorRepository;
 import br.com.sicoob.helpdesk.service.exceptions.EntityNotFoundException;
+import br.com.sicoob.helpdesk.service.exceptions.InternalServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +35,13 @@ public class ReserveOfSecondFloorService {
         response.setNameEquipment(request.getNameEquipment());
         response.setStatus(StatusOfBanq.ACTIVE);
 
+        try {
+            serviceEquipment.reserveEquipment(response.getNameEquipment());
+        } catch (RuntimeException e) {
+            throw new InternalServerException("Não foi possível reservar o equipamento");
+        }
+
         repository.save(response);
-//        serviceEquipment.reserveEquipment(response.getCdReserve());
 
         return ReserveOfSecondFloorResponse.responseEquipment(response);
 
@@ -43,18 +50,21 @@ public class ReserveOfSecondFloorService {
     /*
     * Metodo para devolver o equipamento.
     * */
-//    public boolean returnEquipment(Long cdReserve) {
-//
-//        Optional<ReserveOfSecondFloorEntity> reserve = Optional.ofNullable(repository.findById(cdReserve).orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada")));
-//
-//        reserve.get().setStatus(StatusOfBanq.DISABLED);
-//        serviceEquipment.returnEquipment(reserve.get().getNameEquipment());
-//
-//        repository.save(reserve.get());
-//
-//        return true;
-//
-//    }
+    public ReserveOfSecondFloorResponse returnEquipment(Long cdReserve) {
+
+        Optional<ReserveOfSecondFloorEntity> reserve = Optional.ofNullable(repository.findById(cdReserve).orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada")));
+
+        try {
+            serviceEquipment.returnEquipment(reserve.get().getNameEquipment());
+        } catch (RuntimeException e) {
+            throw new InternalServerException("Não foi possível devolver o equipamento");
+        }
+
+        reserve.get().setStatus(StatusOfBanq.DISABLED);
+
+        return ReserveOfSecondFloorResponse.responseEquipment(repository.save(reserve.get()));
+
+    }
 
    /*
    * Metodo para listar todas as reservas
