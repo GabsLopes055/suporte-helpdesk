@@ -21,7 +21,7 @@ public class ReserveOfSecondFloorResponse {
 
     private LocalDateTime dateOfAdd;
 
-    private StatusOfBanq status;
+    private boolean status;
 
 
 
@@ -35,7 +35,7 @@ public class ReserveOfSecondFloorResponse {
         response.setNameEquipment(equipment.getNameEquipment());
         response.setDateOfRemove(equipment.getDateOfRemove());
         response.setDateOfAdd(equipment.getDateOfAdd());
-        response.setStatus(equipment.getStatus());
+        response.setStatus(equipment.isStatus());
 
         return response;
 

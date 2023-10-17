@@ -33,7 +33,7 @@ public class ReserveOfSecondFloorService {
         response.setCdReserve(request.getCdReserve());
         response.setNameUser(request.getNameUser());
         response.setNameEquipment(request.getNameEquipment());
-        response.setStatus(StatusOfBanq.ACTIVE);
+        response.setStatus(true);
 
         try {
             serviceEquipment.reserveEquipment(response.getNameEquipment());
@@ -60,7 +60,7 @@ public class ReserveOfSecondFloorService {
             throw new InternalServerException("Não foi possível devolver o equipamento");
         }
 
-        reserve.get().setStatus(StatusOfBanq.DISABLED);
+        reserve.get().setStatus(false);
 
         return ReserveOfSecondFloorResponse.responseEquipment(repository.save(reserve.get()));
 

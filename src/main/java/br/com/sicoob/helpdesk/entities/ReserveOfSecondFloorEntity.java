@@ -29,7 +29,7 @@ public class ReserveOfSecondFloorEntity {
 
     private LocalDateTime dateOfAdd;
 
-    private StatusOfBanq status;
+    private boolean status;
 
     @PrePersist
     public void prePersist() {

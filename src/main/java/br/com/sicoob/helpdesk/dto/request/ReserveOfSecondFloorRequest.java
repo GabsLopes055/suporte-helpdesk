@@ -21,7 +21,5 @@ public class ReserveOfSecondFloorRequest {
     @NotBlank(message = "O campo não pode ser vazio")
     private String nameEquipment;
 
-    @NotBlank(message = "O campo não pode ser vazio")
-    private StatusOfBanq status;
 
 }
