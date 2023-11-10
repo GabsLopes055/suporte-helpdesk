@@ -1,21 +1,16 @@
 package br.com.sicoob.helpdesk.controller;
 
 import br.com.sicoob.helpdesk.dto.request.LoginRequest;
-import br.com.sicoob.helpdesk.entities.UserEntities;
-import br.com.sicoob.helpdesk.service.AuthenticationService;
 import br.com.sicoob.helpdesk.service.LoginService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/sat/login")
-public class Autenticate {
+public class Authettication {
 
 
     @Autowired
