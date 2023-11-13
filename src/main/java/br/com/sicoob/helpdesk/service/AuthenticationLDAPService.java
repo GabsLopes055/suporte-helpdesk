@@ -4,6 +4,7 @@ import br.com.sicoob.helpdesk.config.AuthenticationLDAP;
 import br.com.sicoob.helpdesk.config.exceptions.failedConnectionLDAP;
 import br.com.sicoob.helpdesk.entities.UserAdmLDAP;
 import br.com.sicoob.helpdesk.entities.UserLDAP;
+import br.com.sicoob.helpdesk.secutiry.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.AuthenticationException;
 import org.springframework.ldap.core.AttributesMapper;

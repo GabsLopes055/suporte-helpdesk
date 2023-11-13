@@ -4,6 +4,7 @@ import br.com.sicoob.helpdesk.config.exceptions.failedConnectionLDAP;
 import br.com.sicoob.helpdesk.dto.request.LoginRequest;
 import br.com.sicoob.helpdesk.entities.UserAdmLDAP;
 import br.com.sicoob.helpdesk.entities.UserLDAP;
+import br.com.sicoob.helpdesk.secutiry.JwtUtil;
 import br.com.sicoob.helpdesk.service.AuthenticationLDAPService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,26 @@ public class AuthetticationLDAPController {
     @Autowired
     AuthenticationLDAPService service;
 
+    @Autowired
+    JwtUtil jwt;
+
+
     @PostMapping
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> authenticate(@RequestBody @Valid LoginRequest loginRequest) throws failedConnectionLDAP {
-        if (service.authenticate(loginRequest.getUsername(), loginRequest.getPassword()) == "200") {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("usuário Autenticado !");
-        } else if (service.authenticate(loginRequest.getUsername(), loginRequest.getPassword()) == "401") {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha incorretos !");
+    public ResponseEntity<?> authenticate(@RequestBody @Valid LoginRequest loginRequest) throws failedConnectionLDAP {
+
+        String authenticationResult = service.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+
+        if ("200".equals(authenticationResult)) {
+            // Autenticação bem-sucedida, retornar token JWT
+            String jwtToken = jwt.generateJWT(loginRequest.getUsername());
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(jwtToken);
+        } else if ("401".equals(authenticationResult)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha incorretos!");
+        } else if ("404".equals(authenticationResult)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não está incluso no grupo DCSuporte!");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não esta incluso no grupo DCSuporte !");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro desconhecido");
         }
     }
 

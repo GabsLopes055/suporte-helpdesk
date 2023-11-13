@@ -1,20 +1,25 @@
 package br.com.sicoob.helpdesk.secutiry;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfig implements WebMvcConfigurer {
+public class SecurityConfig {
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/*").
-//                allowedOrigins("*").
-//                allowedMethods("*").
-//                allowedHeaders("*").
-//                allowCredentials(true);
-//    }
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    long expirationTime = 60000;
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public Long getExpirationTime() {
+        return expirationTime;
+    }
 
 
 }

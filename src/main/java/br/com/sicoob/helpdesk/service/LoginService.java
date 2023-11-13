@@ -19,53 +19,23 @@ public class LoginService {
     @Autowired
     private UserRepository repository;
 
-
-
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return repository.findByUsername(username);
-//    }
-
-
-//
-//    @Autowired
-//    private UserRepository repository;
-//
-
     @Autowired
     private PassCrypt encoder;
 
-    @Autowired
-    private JwtUtil jwtUtil;
 
-        public Object generatedJWT(LoginRequest loginRequest) {
+    public String authentication(LoginRequest loginRequest) {
 
         Optional<UserEntities> user = Optional.ofNullable(Optional.ofNullable(repository.findByUsername(loginRequest.getUsername()))
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado")));
 
 
-        if(user.isEmpty()) {
-            return "Usuário não encontrado";
+        if (user.get().getStatus() == UserStatus.DESATIVADO) {
+            return "401";
+        } else if (encoder.passwordEncoder().matches(loginRequest.getPassword(), user.get().getPassword())) {
+            return "200";
+        } else {
+            return "402";
         }
-
-        if(user.get().getStatus() == UserStatus.DESATIVADO) {
-            return "Usuário Desativado";
-        }
-
-        boolean passwordEquals = encoder.passwordEncoder().matches(loginRequest.getPassword(), user.get().getPassword());
-
-
-        if(passwordEquals) {
-
-            String token = jwtUtil.generateToken(user.get().getUsername());
-
-
-
-            return JWTResponse.createJWT("Bearer", token, null);
-        }
-
-        return null;
     }
 
 }
