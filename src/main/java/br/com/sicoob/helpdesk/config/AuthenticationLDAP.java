@@ -32,13 +32,13 @@ public class AuthenticationLDAP {
      * Metodo que realiza a conexão com o LDAP
      * */
     @Bean
-    public LdapTemplate ldapTemplate() {
+    public LdapTemplate ldapTemplate() throws failedConnectionLDAP {
         try {
             LdapTemplate ldapTemplate = new LdapTemplate(authenticateUser());
             ldapTemplate.setIgnorePartialResultException(true);
             return ldapTemplate;
         } catch (AuthenticationException e) {
-            throw new failedConnectionLDAP("USUÁRIO DE SERVIÇO ESTA BLOQUEADO");
+            throw new failedConnectionLDAP("Conta de serviço esta bloqueada");
         }
 
     }
